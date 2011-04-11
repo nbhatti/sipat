@@ -1,14 +1,44 @@
-SIP Analysis & Testing
-======================
+SIP Analysis & Testing tools
+============================
 
 This project offers set of tools for testing SIP.
 
+
+Dependencies (ubuntu packages)
+============
+
+libosip2-dev
+libpcap-dev
+libxml2-dev
+
+xsltproc
+
+
 cfanal
-------
+======
 
 Call flow analyzer able to draw call flows from PCAP and verify callflows against given definition.
 
+Usage:
+
+	cfanal -r captured-traffic.pcap -a 10.38.14.73=uac -a 10.38.14.74:5062=uas -print-cf drawing.cf 
+	cf2svg drawing.cf drawing.svg
+	svg2png drawing.svg drawing.png
+    
+
 callflow_diagrams
------------------
+=================
 
 XSL template for painting call flow diagrams.
+
+
+Installation
+============
+
+make install prefix=~/sw  ...  to install into specified directory instead of /usr/local
+
+
+TODO
+====
+
+ - documentation for cfanal including examples of pcap callflow drawing & verification
