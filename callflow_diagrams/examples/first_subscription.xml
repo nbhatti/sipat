@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE flow [
+	<!ENTITY delka "180">
+	<!ENTITY % shortcuts SYSTEM "shortcuts.xml_">
+	%shortcuts;
+]
+>
+<flow width="360" height="260" scale="1">
+	<objects>
+		<object name="c" desc="client" x="20" y="&delka;"/>
+		<object name="as" desc="AS" x="80" y="&delka;"/>
+		<object name="ser" desc="SER" x="140" y="&delka;"/>
+		<object name="sps" desc="sps1: SPS" x="200" y="&delka;"/>
+		<object name="sps2" desc="sps2: SPS" x="260" y="&delka;"/>
+		<object name="xcap" desc="XCAP" x="320" y="&delka;"/>
+	</objects>
+	
+	<call src="c" dst="as" desc="&subscribe_bl;"/>
+	<call src="as" dst="ser" desc="&subscribe_bl;"/>
+	<call src="ser" dst="as" desc="3xx Redirect"/>
+	<call src="as" dst="sps" desc="&subscribe_bl;"/>
+	<call src="sps" dst="xcap" desc="GET (buddy list);" sync="true"/>
+	<call src="sps" dst="as" desc="200 OK"/>
+	<call src="as" dst="c" desc="200 OK"/>
+	<call src="sps" dst="as" desc="&notify_bl;"/>
+	<call src="as" dst="c" desc="&notify_bl;"/>
+	<call src="c" dst="as" desc="200 OK"/>
+	<call src="as" dst="sps" desc="200 OK"/>
+
+	<!-- presence subscriptions from RLS to PA with load balancer redirection -->
+	<call src="sps" dst="ser" desc="&subscribe_usr;"/>
+	<call src="ser" dst="sps" desc="3xx Redirect"/>
+	<call src="sps" dst="sps2" desc="&subscribe_usr;"/> <!-- subscription to correct PA -->
+	<call src="sps2" dst="xcap" desc="GET (auth doc)" sync="true"/>
+	<call src="sps2" dst="sps" desc="200 OK"/>
+	<call src="sps2" dst="sps" desc="&notify_usr;"/>
+	<call src="sps" dst="sps2" desc="200 OK"/>
+	
+	<call src="sps" dst="as" desc="&notify_bl;"/>
+	<call src="as" dst="c" desc="&notify_bl;"/>
+	<call src="c" dst="as" desc="200 OK"/>
+	<call src="as" dst="sps" desc="200 OK"/>
+</flow>

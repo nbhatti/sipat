@@ -1,0 +1,25 @@
+# common settings
+
+# compiler settings and default flags
+CC         = gcc
+CXX        = g++
+CFLAGS     = -Wall -g
+CXXFLAGS   = -Wall -g
+LDFLAGS    = 
+LIBS       =
+INCLUDES   =
+
+# install directories
+prefix      ?= /usr/local
+bin-dir     ?= ${prefix}/bin
+include-dir ?= ${prefix}/include
+lib-dir     ?= ${prefix}/lib
+share-dir   ?= ${prefix}/share
+
+# install programs and permissions
+install          ?= install
+install-bin      ?= $(install) -m 755
+install-lib      ?= $(install) -m 755
+install-share    ?= $(install) -m 644
+install-includes ?= $(install) -m 644
+

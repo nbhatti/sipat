@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow width="297" height="230" scale="1">
+	<objects>
+		<object name="a" desc="a:client" x="20" y="200"/>
+		<object name="b" desc="b:client" x="80" y="200"/>
+		<object name="xcap" desc="XCAP" x="250" y="200"/>
+		<object name="ps" desc="Presence server" x="150" y="200"/>
+	</objects>
+	
+	<call src="a" dst="ps" desc="SUBSCRIBE" color="green"/>
+	<call src="ps" dst="xcap" desc="GET (authorization doc)" sync="true"/>
+	<call src="ps" desc="STORE message"/>
+	<call src="ps" desc="STORE message(sync)" sync="true"/>
+	<call src="ps" dst="a" desc="NOTIFY" color="red"/>
+	<call src="a" dst="ps" desc="200 OK" color="red"/>
+	
+	<call src="ps" dst="b" desc="winfo NOTIFY"/>
+	<call src="b" dst="ps" desc="200 OK"/>
+</flow>
+

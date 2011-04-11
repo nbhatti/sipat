@@ -1,0 +1,14 @@
+SIP Analysis & Testing
+======================
+
+This project offers set of tools for testing SIP.
+
+cfanal
+------
+
+Call flow analyzer able to draw call flows from PCAP and verify callflows against given definition.
+
+callflow_diagrams
+-----------------
+
+XSL template for painting call flow diagrams.

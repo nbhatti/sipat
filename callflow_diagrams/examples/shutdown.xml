@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE flow [
+	<!ENTITY delka "165">
+]
+>
+<flow width="360" height="250" scale="1">
+	<objects>
+		<object name="c" desc="client" x="20" y="&delka;"/>
+		<object name="as" desc="AS" x="80" y="&delka;"/>
+		<object name="ser" desc="SER" x="140" y="&delka;"/>
+		<object name="sps" desc="sps1: SPS" x="200" y="&delka;"/>
+	</objects>
+	
+	<!-- renewal publish -->
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+		href="renewal_publish.xml"
+		xpointer="xpointer(flow/child::*[not(self::objects)])">
+		<xi:fallback>
+			<para><emphasis>Missing diagram for consequent publication!</emphasis></para>
+		</xi:fallback>
+	</xi:include>
+	
+	<!-- renewal subscription -->
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+		href="renewal_subscription.xml"
+		xpointer="xpointer(flow/child::*[not(self::objects)])">
+		<xi:fallback>
+			<para><emphasis>Missing diagram for renewal subscription!</emphasis></para>
+		</xi:fallback>
+	</xi:include>
+	
+	<!-- renewal winfo subscription -->
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+		href="renewal_winfo_subscription.xml"
+		xpointer="xpointer(flow/child::*[not(self::objects)])">
+		<xi:fallback>
+			<para><emphasis>Missing diagram for renewal winfo subscription!</emphasis></para>
+		</xi:fallback>
+	</xi:include>
+
+
+</flow>

@@ -1,0 +1,113 @@
+# makefile template for creating libraries
+
+# if not specified create both types of library
+create-shared ?= yes
+create-static ?= yes
+
+# if not given, try to guess what to install
+install-shared ?= ${create-shared}
+install-static ?= ${create-static}
+
+#################################################################
+# sources & dependencies
+
+SRCS := $(wildcard *.c)
+HDRS := $(wildcard *.h)
+DEP_IN = ${SRCS} ${HDRS}
+OBJS := $(patsubst %.c,%.o,$(SRCS))
+
+#################################################################
+
+# heder files should be included via <...> instead of "..."
+INCLUDES += -I..
+#INCLUDES += -I$(CURDIR)/..
+
+static_lib_name  = lib${NAME}.a
+dynamic_lib_name = lib${NAME}.so
+
+# set targets which will be compiled
+targets =
+ifeq ($(create-static),yes)
+targets += ${static_lib_name}
+endif
+ifeq ($(create-shared),yes)
+targets += ${dynamic_lib_name}
+endif
+
+# set targets which will be installed
+install_targets =
+ifeq ($(install-static),yes)
+install_targets += install-static
+endif
+ifeq ($(install-shared),yes)
+install_targets += install-shared
+endif
+
+default:	${targets}
+
+#static library
+${static_lib_name}:	${OBJS}
+		ar -r $@ ${OBJS}
+
+# dynamic library
+${dynamic_lib_name}:	${OBJS}
+		${CC} -shared ${CFLAGS} ${LDFLAGS} ${INCLUDES} -o $@ ${OBJS} ${LIBS}
+
+#################################################################
+# common rules
+
+%.o:	%.c
+		${CC} ${CFLAGS} ${INCLUDES} -c $<
+
+.PHONY:	install install-static install-shared install-headers install-dirs clean proper
+
+proper: clean
+		-@rm -f tags ID
+
+clean:
+		-@rm -f ${static_lib_name} ${dynamic_lib_name} *.o *.d core core.* *~ Makefile.deps
+
+ifneq ($(MAKECMDGOALS),proper)
+ifneq ($(MAKECMDGOALS),clean)
+-include $(SRCS:.c=.d)
+endif
+endif
+
+%.d:	%.c
+		@$(CC) -M $(CFLAGS) $(INCLUDES) $< > $@.$$$$; \
+		sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+		rm -f $@.$$$$
+
+#################################################################
+# library instalation
+
+install:	${targets} ${install_targets}
+
+install-static:	${static_lib_name} ${install-dirs} install-headers
+				$(install-lib) ${static_lib_name} $(lib-dir)
+
+install-shared:	${dynamic_lib_name} ${install-dirs} install-headers
+				$(install-lib) ${dynamic_lib_name} $(lib-dir)
+
+# headers are installed only if anything else
+install-headers:	install-dirs
+					@echo "install headers"
+					@for hdr in ${HDRS} ; do \
+						$(install-includes) $$hdr $(include-dir)/$(NAME); \
+					done
+
+install-dirs:	$(lib-dir) $(include-dir)/$(NAME)
+				@echo "install dirs"
+
+$(bin-dir):	
+			mkdir -p $(bin-dir)
+
+$(lib-dir):	
+			mkdir -p $(lib-dir)
+
+$(share-dir)/$(NAME):	
+			mkdir -p $(share-dir)/$(NAME)
+			
+$(include-dir)/$(NAME):	
+			mkdir -p $(include-dir)/$(NAME)
+

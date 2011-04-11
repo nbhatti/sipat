@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE flow [
+	<!ENTITY delka "80">
+]
+>
+<flow width="360" height="120" scale="1">
+	<objects>
+		<object name="c" desc="client" x="20" y="&delka;"/>
+		<object name="as" desc="AS" x="80" y="&delka;"/>
+		<object name="sps" desc="SPS" x="200" y="&delka;"/>
+	</objects>
+	
+	<call src="c" dst="as" desc="SUBSCRIBE (winfo)"/>
+	<call src="as" dst="sps" desc="SUBSCRIBE (winfo)"/>
+	<call src="sps" dst="as" desc="200 OK"/>
+	<call src="as" dst="c" desc="200 OK"/>
+	<call src="sps" dst="as" desc="NOTIFY (winfo)"/>
+	<call src="as" dst="c" desc="NOTIFY (winfo)"/>
+	<call src="c" dst="as" desc="200 OK"/>
+	<call src="as" dst="sps" desc="200 OK"/>
+</flow>

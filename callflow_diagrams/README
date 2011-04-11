@@ -1,0 +1,79 @@
+What is this
+------------
+
+XSL template for conversion simple XML call flow description into SVG format.
+
+Purpose
+-------
+
+This template was written after some hours spent with attempts to draw few
+call flow diagrams in umbrello (it will be nice software but now is REALLY
+unusable - unstable, unable to edit once drawn pictures, strange behaviour
+sometimes, ...). 
+
+In comparison with umbrello is this solution (XML -> SVG) much better. 
+Really. ;-) You can use XML features like xincludes and many other (see
+examples directory).
+
+Call flow diagram description
+-----------------------------
+
+Simple diagram:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<flow width="297" height="210" scale="1">
+	<objects>
+		<object name="a" desc="a:client" x="20" y="200"/>
+		<object name="b" desc="b:client" x="80" y="200"/>
+		<object name="xcap" desc="XCAP" x="250" y="200"/>
+		<object name="ps" desc="Presence server" x="150" y="200"/>
+	</objects>
+	
+	<call src="a" dst="ps" desc="SUBSCRIBE" color="green"/>
+	<call src="ps" dst="xcap" desc="GET (authorization doc)" sync="true"/>
+	<call src="ps" desc="STORE message"/>
+	<call src="ps" desc="STORE message(sync)" sync="true"/>
+	<call src="ps" dst="a" desc="NOTIFY" color="red"/>
+	<call src="a" dst="ps" desc="200 OK" color="red"/>
+	
+	<call src="ps" dst="b" desc="winfo NOTIFY"/>
+	<call src="b" dst="ps" desc="200 OK"/>
+</flow>
+
+In <objects> section we define actors. Each actor has "name", which identifies him
+in <call> elements; description desc" which is shown in title; "x" position which
+means the horizontal position in mm of actor's line on the diagram and "y" which
+means the length of actor's line ("y" is deprecated now - it is automaticaly 
+computed).
+
+After that we simply use <call> elements where:
+  src   ... name of call source actor
+  dst   ... name of call destination actor (if missing, it is a "selfcall" - call 
+            done to ator itself; may be missing together with given sync)
+  desc  ... description shown over the call arrow
+  color ... color of call arrow (if not given, black is used)
+  sync  ... the call is drawn as synchronous call (rectangle and response arrow)
+
+Usage
+-----
+
+Converting call flow diagram into SVG using a XSLT processor (for example
+xsltproc):
+
+   xsltproc --xinclude -o diagram.svg cf.xsl diagram.xml
+
+Such SVG image can be displayed in browser using plugin from Adobe or 
+converted into other format using for example GIMP.
+
+Converting SVG into PNG using GIMP is described by Matthew Gates in 
+http://www.porpoisehead.net/mysw/index.php?pgid=gimp_svg.
+
+There is a simple Makefile in example directory using this conversion and scripts
+published on web page mentioned above. It works with GIMP 2.2 with SVG plugin without
+much effort. 
+
+Try it:
+
+  cd examples
+  make
+

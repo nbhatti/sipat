@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE flow [
+	<!ENTITY delka "70">
+	<!ENTITY % shortcuts SYSTEM "shortcuts.xml_">
+	%shortcuts;
+]
+>
+<flow width="400" height="230" scale="1">
+	<objects>
+		<object name="c" desc="a:client" x="20" y="&delka;"/>
+<!--		<object name="d" desc="b:client" x="80" y="&delka;"/>-->
+		<object name="as" desc="AS" x="140" y="&delka;"/>
+		<object name="ser" desc="SER" x="200" y="&delka;"/>
+		<object name="sps" desc="SPS" x="260" y="&delka;"/>
+<!--		<object name="xcap" desc="XCAP" x="320" y="&delka;"/>-->
+	</objects>
+
+	<call src="c" dst="as" desc="MESSAGE"/>
+	<call src="as" dst="ser" desc="MESSAGE"/>
+	<call src="ser" dst="as" desc="3xx Redirect"/>
+	<call src="as" dst="sps" desc="MESSAGE"/>
+	<call src="sps" desc="store message"/>
+	<call src="sps" dst="as" desc="202 Accepted"/>
+	<call src="as" dst="c" desc="202 Accepted"/>
+</flow>

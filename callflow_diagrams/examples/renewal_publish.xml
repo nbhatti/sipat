@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE flow [
+	<!ENTITY delka "50">
+]
+>
+<flow width="360" height="230" scale="1">
+	<objects>
+		<object name="c" desc="client" x="20" y="&delka;"/>
+		<object name="as" desc="AS" x="80" y="&delka;"/>
+		<object name="ser" desc="SER" x="140" y="&delka;"/>
+		<object name="sps" desc="SPS" x="200" y="&delka;"/>
+	</objects>
+	
+	<call src="c" dst="as" desc="PUBLISH"/>
+	<call src="as" dst="ser" desc="PUBLISH"/>
+	<call src="ser" dst="as" desc="3xx Redirect"/>
+	<call src="as" dst="sps" desc="PUBLISH"/>
+	<call src="sps" dst="as" desc="200 OK"/>
+	<call src="as" dst="c" desc="200 OK"/>
+</flow>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE flow [
+	<!ENTITY delka "60">
+]
+>
+<flow width="360" height="230" scale="1">
+	<objects>
+		<object name="c" desc="client" x="20" y="&delka;"/>
+		<object name="xcap" desc="XCAP" x="120" y="&delka;"/>
+	</objects>
+
+	<call src="c" dst="xcap" desc="GET (auth doc)" sync="true"/>
+	<call src="c" desc="modify authorization document"/>
+	<call src="c" dst="xcap" desc="PUT (auth doc)" sync="true"/>
+
+</flow>

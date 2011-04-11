@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE flow [
+	<!ENTITY delka "340">
+]
+>
+<flow width="360" height="480" scale="1">
+	<objects>
+		<object name="c" desc="client" x="20" y="&delka;"/>
+		<object name="as" desc="AS" x="80" y="&delka;"/>
+		<object name="ser" desc="SER" x="140" y="&delka;"/>
+		<object name="sps" desc="sps1: SPS" x="200" y="&delka;"/>
+		<object name="sps2" desc="sps2: SPS" x="260" y="&delka;"/>
+		<object name="xcap" desc="XCAP" x="320" y="&delka;"/>
+	</objects>
+	
+	<!-- first winfo subscription -->
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+		href="first_winfo_subscription.xml"
+		xpointer="xpointer(flow/child::*[not(self::objects)])">
+		<xi:fallback>
+			<para><emphasis>Missing diagram for first winfo subscription!</emphasis></para>
+		</xi:fallback>
+	</xi:include>
+
+	<call src="c" dst="xcap" desc="GET (buddy list)" sync="true"/>
+
+	<!-- first subscription -->
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+		href="first_subscription.xml"
+		xpointer="xpointer(flow/child::*[not(self::objects)])">
+		<xi:fallback>
+			<para><emphasis>Missing diagram for first subscription!</emphasis></para>
+		</xi:fallback>
+	</xi:include>
+	
+	<!-- first publish -->
+	<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"
+		href="first_publish.xml"
+		xpointer="xpointer(flow/child::*[not(self::objects)])">
+		<xi:fallback>
+			<para><emphasis>Missing diagram for first publication!</emphasis></para>
+		</xi:fallback>
+	</xi:include>
+
+</flow>

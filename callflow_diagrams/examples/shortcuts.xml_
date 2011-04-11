@@ -1,0 +1,7 @@
+<!ENTITY subscribe_bl "SUBSCRIBE (bl)">
+<!ENTITY notify_bl "NOTIFY (bl)">
+<!ENTITY subscribe_usr "SUBSCRIBE">
+<!ENTITY notify_usr "NOTIFY">
+<!ENTITY subscribe_winfo "SUBSCRIBE (winfo)">
+<!ENTITY notify_winfo "NOTIFY (winfo)">
+<!ENTITY ok "200 OK">
