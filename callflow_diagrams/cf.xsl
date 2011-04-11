@@ -2,7 +2,7 @@
 
 <!-- 
 
-Copyright (C) 2005-2010 Tekelec
+Copyright (C) 2005-2011 Tekelec
 
 This file is part of SIP-A&T, set of tools for SIP analysis and testing.
 
